@@ -52,6 +52,12 @@ oc adm policy add-cluster-role-to-group cluster-admin custom-admins
 oc --kubeconfig /tmp/t51-kubeconfig-admin.yaml get nodes
 ```
 
+###
+
+```shell
+oc get csr admin-access -o jsonpath='{.status.certificate}'| base64 -d | openssl x509 -noout -dates
+```
+
 
 ## Locally signed user certificate
 
