@@ -36,9 +36,9 @@ export OPENSHIFT_API_SERVER_ENDPOINT=$(oc whoami --show-server | sed -e 's|https
 openssl s_client -showcerts -connect ${OPENSHIFT_API_SERVER_ENDPOINT} </dev/null 2>/dev/null|openssl x509 -outform PEM > ./ocp-apiserver-cert.crt
 
 # generate kubeconfig 
-oc --kubeconfig /tmp/t51-kubeconfig-admin.yaml config set-credentials admin --client-certificate=./admin.crt --client-key=./admin.key --embed-certs=true
+oc --kubeconfig /tmp/t51-kubeconfig-admin.yaml config set-credentials system:admin --client-certificate=./admin.crt --client-key=./admin.key --embed-certs=true
 oc --kubeconfig /tmp/t51-kubeconfig-admin.yaml config set-cluster openshift-cluster-dev --certificate-authority=./ocp-apiserver-cert.crt --embed-certs=true --server=https://${OPENSHIFT_API_SERVER_ENDPOINT}
-oc --kubeconfig /tmp/t51-kubeconfig-admin.yaml config set-context openshift-dev --cluster=openshift-cluster-dev --namespace=default --user=admin
+oc --kubeconfig /tmp/t51-kubeconfig-admin.yaml config set-context openshift-dev --cluster=openshift-cluster-dev --namespace=default --user=system:admin
 oc --kubeconfig /tmp/t51-kubeconfig-admin.yaml config use-context openshift-dev
 ```
 
