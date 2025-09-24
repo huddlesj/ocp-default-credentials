@@ -30,8 +30,10 @@ export CA_SUBJ="/OU=openshift/CN=admin-kubeconfig-signer-custom"
 openssl req -x509 -new -nodes -key ${NAME}-ca.key -sha256 -days $VALIDITY -out ${NAME}-ca.crt -subj "${CA_SUBJ}"
 ```
 
-~~
+
 Create temp client-ca ConfigMap
+
+*This step is only needed for testing*
 
 ```shell
 # create the client-ca ConfigMap"
@@ -40,7 +42,7 @@ oc create configmap client-ca-custom -n openshift-config --from-file=ca-bundle.c
 # patch the APIServer
 oc patch apiserver cluster --type=merge -p '{"spec": {"clientCA": {"name": "client-ca-custom"}}}'
 ```
-~~
+
 
 ### Replace old CA with new one
 
