@@ -17,6 +17,7 @@ oc login -u huddlesj https://api.t51.jk308.com:6443
 ### Generate new CA
 
 ```shell
+cd /tmp
 export NAME="custom"
 export CA_SUBJ="/OU=openshift/CN=admin-kubeconfig-signer-custom"
 

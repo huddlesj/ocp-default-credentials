@@ -66,10 +66,10 @@ export OPENSHIFT_API_SERVER_ENDPOINT=$(oc whoami --show-server | sed -e 's|https
 
 openssl req -nodes -newkey rsa:4096 -keyout /tmp/localsigned-admin.key -subj "/O=custom-admins/CN=localsigned-admin" -out /tmp/localsigned-admin.csr
 
-openssl x509 -extfile <(printf "extendedKeyUsage = clientAuth") -req -in /tmp/localsigned-admin.csr -CA /root/tmp/kubeadmin/custom-ca.crt -CAkey /root/tmp/kubeadmin/custom-ca.key -CAcreateserial -out /tmp/localsigned-admin.crt -days 365 -sha256
+openssl x509 -extfile <(printf "extendedKeyUsage = clientAuth") -req -in /tmp/localsigned-admin.csr -CA /tmp/custom-ca.crt -CAkey /tmp/custom-ca.key -CAcreateserial -out /tmp/localsigned-admin.crt -days 365 -sha256
 
 oc --kubeconfig /tmp/localsigned-admin config set-credentials localsigned-admin --client-certificate=/tmp/localsigned-admin.crt --client-key=/tmp/localsigned-admin.key --embed-certs=true
-oc --kubeconfig /tmp/localsigned-admin config set-cluster openshift-cluster-dev --certificate-authority=/root/tmp/kubeadmin/ocp-apiserver-cert.crt --embed-certs=true --server=https://${OPENSHIFT_API_SERVER_ENDPOINT}
+oc --kubeconfig /tmp/localsigned-admin config set-cluster openshift-cluster-dev --certificate-authority=/tmp/ocp-apiserver-cert.crt --embed-certs=true --server=https://${OPENSHIFT_API_SERVER_ENDPOINT}
 oc --kubeconfig /tmp/localsigned-admin config set-context openshift-dev --cluster=openshift-cluster-dev --namespace=default --user=localsigned-admin
 oc --kubeconfig /tmp/localsigned-admin config use-context openshift-dev
 ```
