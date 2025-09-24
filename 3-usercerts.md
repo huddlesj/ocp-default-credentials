@@ -58,12 +58,12 @@ oc --kubeconfig /tmp/t51-kubeconfig-admin.yaml get nodes
 ```shell
 export OPENSHIFT_API_SERVER_ENDPOINT=$(oc whoami --show-server | sed -e 's|https://||')
 
-openssl req -nodes -newkey rsa:4096 -keyout /tmp/john.key -subj "/O=custom-admins/CN=john" -out /tmp/john.csr
+openssl req -nodes -newkey rsa:4096 -keyout /tmp/localsigned-admin.key -subj "/O=custom-admins/CN=localsigned-admin" -out /tmp/localsigned-admin.csr
 
-openssl x509 -extfile <(printf "extendedKeyUsage = clientAuth") -req -in /tmp/john.csr -CA /root/tmp/kubeadmin/custom-ca.crt -CAkey /root/tmp/kubeadmin/custom-ca.key -CAcreateserial -out /tmp/john.crt -days 365 -sha256
+openssl x509 -extfile <(printf "extendedKeyUsage = clientAuth") -req -in /tmp/localsigned-admin.csr -CA /root/tmp/kubeadmin/custom-ca.crt -CAkey /root/tmp/kubeadmin/custom-ca.key -CAcreateserial -out /tmp/localsigned-admin.crt -days 365 -sha256
 
-oc --kubeconfig /tmp/john config set-credentials john --client-certificate=/tmp/john.crt --client-key=/tmp/john.key --embed-certs=true
-oc --kubeconfig /tmp/john config set-cluster openshift-cluster-dev --certificate-authority=/root/tmp/kubeadmin/ocp-apiserver-cert.crt --embed-certs=true --server=https://${OPENSHIFT_API_SERVER_ENDPOINT}
-oc --kubeconfig /tmp/john config set-context openshift-dev --cluster=openshift-cluster-dev --namespace=default --user=john
-oc --kubeconfig /tmp/john config use-context openshift-dev
+oc --kubeconfig /tmp/localsigned-admin config set-credentials localsigned-admin --client-certificate=/tmp/localsigned-admin.crt --client-key=/tmp/localsigned-admin.key --embed-certs=true
+oc --kubeconfig /tmp/localsigned-admin config set-cluster openshift-cluster-dev --certificate-authority=/root/tmp/kubeadmin/ocp-apiserver-cert.crt --embed-certs=true --server=https://${OPENSHIFT_API_SERVER_ENDPOINT}
+oc --kubeconfig /tmp/localsigned-admin config set-context openshift-dev --cluster=openshift-cluster-dev --namespace=default --user=localsigned-admin
+oc --kubeconfig /tmp/localsigned-admin config use-context openshift-dev
 ```
