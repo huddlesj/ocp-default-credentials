@@ -33,7 +33,7 @@ openssl req -x509 -new -nodes -key ${NAME}-ca.key -sha256 -days $VALIDITY -out $
 
 Create temp client-ca ConfigMap
 
-*This step is only needed for testing*
+**This step is only needed for testing**
 
 ```shell
 # create the client-ca ConfigMap"
