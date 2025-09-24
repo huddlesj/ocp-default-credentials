@@ -2,15 +2,6 @@
 
 Start with cluster built with ACM showing the resulting kubeadmin creds
 
-```shell
-# oc get kubeadmin secret in kube-system
-# inspect kubeconfig
-# login as system:admin
-oc whoami 
-oc whoami --show-server
-oc login -u system:admin https://api.t51.jk308.com:6443
-```
-
 ## Show existing cert 
 
 ```shell
