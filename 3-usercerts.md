@@ -73,3 +73,9 @@ oc --kubeconfig /tmp/localsigned-admin config set-cluster openshift-cluster-dev 
 oc --kubeconfig /tmp/localsigned-admin config set-context openshift-dev --cluster=openshift-cluster-dev --namespace=default --user=localsigned-admin
 oc --kubeconfig /tmp/localsigned-admin config use-context openshift-dev
 ```
+
+## Test it out
+
+```shell
+oc --kubeconfig /tmp/localsigned-admin get nodes
+```
