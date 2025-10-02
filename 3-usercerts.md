@@ -24,6 +24,9 @@ EOF
 # approve cert request
 oc adm certificate approve admin-access
 
+# Wait for csr to be published
+sleep 10
+
 ### get approved cert
 oc get csr admin-access -o jsonpath='{.status.certificate}' | base64 -d > ./admin.crt
 ```
